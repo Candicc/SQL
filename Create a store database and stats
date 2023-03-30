@@ -1,0 +1,28 @@
+--Create a store database
+
+CREATE TABLE clothes_n_thingz (id INTEGER PRIMARY KEY, item TEXT, price INTEGER, quantity INTEGER, color TEXT);
+
+INSERT INTO clothes_n_thingz VALUES (1, "Tshirt", 5.99, 20, "black");
+INSERT INTO clothes_n_thingz VALUES (2, "caps", 2.99, 10, "red");
+INSERT INTO clothes_n_thingz VALUES (3, "jeans", 20.99, 20, "blue");
+INSERT INTO clothes_n_thingz VALUES (4, "suspenders", 2, 5, "green");
+INSERT INTO clothes_n_thingz VALUES (5, "shoes", 3, 5, "purple");
+INSERT INTO clothes_n_thingz VALUES (6, "socks", 1, 30, "magenta");
+INSERT INTO clothes_n_thingz VALUES (7, "apple watch", 500, 50, "red");
+INSERT INTO clothes_n_thingz VALUES (8, "Gold Rings", 350, 25, "gold");
+INSERT INTO clothes_n_thingz VALUES (9, "Happy Shirt", 10.99, 5, "white");
+INSERT INTO clothes_n_thingz VALUES (10, "paper hat", 15, 30, "rainbow");
+INSERT INTO clothes_n_thingz VALUES (11, "dog leash", 30, 5, "black");
+INSERT INTO clothes_n_thingz VALUES (12, "tea bag", 5, 500, "green");
+INSERT INTO clothes_n_thingz Values (13, "purse", 125, 5, "black");
+INSERT INTO clothes_n_thingz VALUES (14, "plain tote", 3, 50, "tan");
+INSERT INTO clothes_n_thingz VALUES (15, "Fancy Tote", 50, 10, "gold");
+
+--display store database ordered by price
+SELECT * FROM clothes_n_thingz ORDER BY price asc;
+
+--What is the total cost of all black items in the store?
+SELECT SUM (quantity) "Black Items" FROM clothes_n_thingz where color="black";
+
+--Display the item, price, quantity and color of items grouped by the color
+Select item, price, quantity, color from clothes_n_thingz order by color;
