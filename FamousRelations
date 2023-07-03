@@ -1,0 +1,133 @@
+/* Create table about the people and what they do here */
+
+CREATE TABLE famous_people (id INTEGER PRIMARY KEY, fullname TEXT, awards TEXT, spouseID INTEGER, Child_ID INTEGER);
+
+INSERT INTO famous_people (fullname, awards, spouseID, Child_ID) Values ('Will Smith', 'Yes', 2, 3);
+
+INSERT INTO famous_people (fullname, awards, spouseID, Child_ID) Values ('Jada Smith', 'No', 1, 4);
+
+INSERT INTO famous_people (fullname, awards) Values ('Willow Smith', 'No');
+
+INSERT INTO famous_people (fullname, awards) Values ('Jaden Smith', 'No');
+
+INSERT INTO famous_people (fullname, awards, spouseID, Child_ID) Values ('Don Johnson', 'Yes', 6, 7);
+
+INSERT INTO famous_people (fullname, awards, spouseID, Child_ID) Values ('Melanie Griffith', 'Yes', 5, 7);
+
+INSERT INTO famous_people (fullname, awards) Values ('Dakota Johnson', 'No');
+
+INSERT INTO famous_people (fullname, awards, spouseID, Child_ID) Values ('David Beckham', 'Yes', 9, 10);
+
+INSERT INTO famous_people (fullname, awards, spouseID, Child_ID) Values ('Victoria Beckham', 'Yes', 8, 10);
+
+INSERT INTO famous_people (fullname, awards) Values ('Romeo Beckham', 'No');
+
+INSERT INTO famous_people (fullname, awards, Child_ID) Values ('Tippi Hedren', 'Yes', 6);
+
+INSERT INTO famous_people (fullname, awards) Values ('Drew Barrymore', 'No');
+
+INSERT INTO famous_people (fullname, awards, Child_ID) Values ('John Drew Barrymore', 'No', 12);
+
+INSERT INTO famous_people (fullname, awards, spouseID, Child_ID) Values ('John Barrymore', 'No', 15, 13);
+
+
+INSERT INTO famous_people (fullname, awards, spouseID, Child_ID) Values ('Dolores Costello', 'No', 14, 13);
+
+
+CREATE TABLE origins (id INTEGER PRIMARY KEY, personID INTEGER, country TEXT, locality TEXT, SES TEXT);
+
+INSERT INTO origins (personID, country, locality, SES) Values (1, 'USA', 'Philadelphia', 'Middle');
+
+INSERT INTO origins (personID, country, locality, SES) Values (2, 'USA', 'Baltimore', 'Middle');
+
+INSERT INTO origins (personID, country, locality, SES) Values (3, 'USA', 'Los Angeles', 'Upper');
+
+INSERT INTO origins (personID, country, locality, SES) Values (4, 'USA', 'Los Angeles', 'Upper');
+
+INSERT INTO origins (personID, country, locality, SES) Values (8, 'UK', 'London', 'Lower');
+
+INSERT INTO origins (personID, country, locality, SES) Values (9, 'UK', 'Essex', 'Upper');
+
+INSERT INTO origins (personID, country, locality, SES) Values (10, 'UK', 'London', 'Upper');
+
+INSERT INTO origins (personID, country, locality, SES) Values (5, 'USA', 'Flat Creek', 'Lower');
+
+INSERT INTO origins (personID, country, locality, SES) Values (6, 'USA', 'Manhattan', 'Upper');
+
+INSERT INTO origins (personID, country, locality, SES) Values (7, 'USA', 'Austin', 'Upper');
+
+INSERT INTO origins (personID, country, locality) Values (11, 'USA', 'New Ulm');
+
+INSERT INTO origins (personID, country, locality, SES) Values (12, 'USA', 'Culver City', 'Upper');
+
+INSERT INTO origins (personID, country, locality, SES) Values (13, 'USA', 'Los Angeles', 'Upper');
+
+INSERT INTO origins (personID, country, locality, SES) Values (14, 'USA', 'Philidelphia', 'Upper');
+
+INSERT INTO origins (personID, country, locality, SES) Values (15, 'USA', 'Pittsburgh', 'Upper');
+
+CREATE TABLE careers (id INTEGER PRIMARY KEY, PersonID INTEGER, job_type TEXT, ProjectName TEXT);
+
+INSERT INTO careers(PersonID, job_type, ProjectName) Values (1, 'Actor', 'King Richard');
+
+INSERT INTO careers(PersonID, job_type) Values (2, 'Actor');
+
+INSERT INTO careers(PersonID, job_type) Values (3, 'Musician');
+
+INSERT INTO careers(PersonID, job_type) Values (4, 'Actor');
+
+INSERT INTO careers(PersonID, job_type, ProjectName) Values (5, 'Actor', 'Miami Vice');
+
+INSERT INTO careers(PersonID, job_type, ProjectName) Values (6, 'Actor', 'Working Girl');
+
+INSERT INTO careers(PersonID, job_type) Values (7, 'Actor');
+
+INSERT INTO careers(PersonID, job_type, ProjectName) Values (8, 'Athlete', 'Manchester United');
+
+INSERT INTO careers(PersonID, job_type, ProjectName) Values (9, 'Musician', 'Spice Girls');
+
+INSERT INTO careers(PersonID, job_type) Values (10, 'Athlete');
+
+INSERT INTO careers(PersonID, job_type, ProjectName) Values (11, 'Actor', 'The Birds');
+
+INSERT INTO careers(PersonID, job_type) Values (12, 'Actor');
+
+INSERT INTO careers(PersonID, job_type) Values (13, 'Actor');
+
+INSERT INTO careers(PersonID, job_type) Values (14, 'Actor');
+
+INSERT INTO careers(PersonID, job_type) Values (15, 'Actor');
+
+/* who is married to whom and what are their children's names*/
+
+SELECT famous_people.fullname, spouse.fullname, child.fullname
+FROM famous_people
+left join famous_people spouse
+on famous_people.spouseID = spouse.id
+left join famous_people child
+on famous_people.Child_ID = child.id;
+
+/* count how many of each type of job*/
+
+SELECT job_type, count(*) as Count from careers group by job_type;
+
+/* Where are the award winners from*/
+Select fullname, country, locality
+FROM famous_people
+left join origins
+on famous_people.id = origins.personID
+where famous_people.awards = 'Yes';
+
+/*count how many people from each SES*/
+
+SELECT SES, count(*) AS Number
+FROM origins
+GROUP BY SES;
+
+/*What does each person do and if they have an award, what did they get it for*/
+
+SELECT famous_people.fullname, careers.job_type, careers.ProjectName
+FROM famous_people
+LEFT JOIN careers
+on famous_people.id = careers.PersonID
+order by ProjectName;
