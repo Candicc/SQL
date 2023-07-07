@@ -88,7 +88,7 @@ INNER JOIN BIT_DB.customers cust
 ON cust.order_id = feb.orderID
 WHERE Length(feb.orderID) = 6;
 
---Which product brought in the most revenue in January and how much revenue did it bring in total?--
+--13.Which product brought in the most revenue in January and how much revenue did it bring in total?--
 SELECT product, SUM(quantity*price) as revenue
 FROM BIT_DB.JanSales
 WHERE length(orderID) = 6
@@ -96,5 +96,3 @@ AND orderID <> 'Order ID'
 GROUP BY product
 ORDER BY revenue desc
 LIMIT 1;
-Where location like ('%Los Angeles%')
-GROUP BY product;
