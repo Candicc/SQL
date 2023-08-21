@@ -102,3 +102,9 @@ AND orderID <> 'Order ID'
 GROUP BY product
 ORDER BY revenue desc
 LIMIT 1;
+
+--14. List all the products sold in Los Angeles in February, and include how many of each were sold --
+SELECT Product, count(Quantity) as Quant
+FROM BIT_DB.FebSales
+WHERE location LIKE '%Los Angeles%'
+Group BY Product;
