@@ -1,0 +1,104 @@
+# For this project, I downloaded Spotify data from Kaggle.
+# Then I created a table to insert Spotify data into.
+# Finally, I performed analytics on the data using SQL. 
+
+#Creating the table: 
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness text NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL 
+)
+
+# First I explored the data to see the columns and data types /*Explore Data*/
+SELECT *
+FROM BIT_DB.Spotifydata;
+
+#I then asked several questions of the data as follows:
+/*How many times do each artist appears on the list?*/
+SELECT count(artist_name) AS Count, artist_name
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+ORDER BY Count desc;
+
+/*Which song is the most dancable?*/
+SELECT max(danceability), track_name
+FROM BIT_DB.Spotifydata;
+
+/*What are the top 10 most popular songs, and who are the artists?*/
+SELECT popularity, artist_name, track_name
+FROM BIT_DB.Spotifydata
+ORDER BY popularity desc
+LIMIT 10;
+
+/*What is the average dancability of each artist?*/
+SELECT artist_name, avg(danceability) as AVG_Dance
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+ORDER BY AVG_Dance desc;
+
+/*What artist released the longest song?*/
+SELECT artist_name, duration_ms
+FROM BIT_DB.Spotifydata
+Order BY duration_ms desc
+LIMIT 1;
+
+/*What's the average song key for doja cat?*/
+SELECT avg(song_key)
+FROM BIT_DB.Spotifydata
+WHERE artist_name = 'Doja Cat';
+
+/*Whats the range of danceability?*/
+SELECT max(danceability), min(danceability)
+FROM BIT_DB.Spotifydata;
+
+/*What's the average popularity, and energy of the most dancable songs?*/
+SELECT avg(popularity), avg(energy),
+CASE
+    WHEN danceability > .79 THEN 'Danceable'
+    WHEN danceability >.59 THEN 'Medium'
+    ELSE 'Not Danceable'
+END AS 'Dance_Zone'
+FROM BIT_DB.Spotifydata
+GROUP BY Dance_Zone;
+
+/*How many songs have each time signiture?*/
+SELECT COUNT(time_signature), time_signature
+FROM BIT_DB.Spotifydata
+GROUP BY time_signature;
+
+/*Rank each song by speechiness*/
+SELECT track_name, speechiness, RANK()OVER (Order BY speechiness desc) as ranking
+FROM BIT_DB.Spotifydata
+Order by ranking;
+
+/*Rank each song by energy*/
+SELECT track_name, energy, RANK()OVER (Order BY energy desc) as ranking
+FROM BIT_DB.Spotifydata
+Order by ranking;
+
+
+/*show all the songs with above average instrumentalness*/
+SELECT track_name, instrumentalness
+FROM BIT_DB.Spotifydata
+Where instrumentalness > (SELECT avg(instrumentalness) From BIT_DB.Spotifydata);
+
+/*Check for duplicate rows*/
+SELECT track_name, track_id, artist_name
+FROM BIT_DB.Spotifydata as S1
+GROUP BY track_name, track_id, artist_name
+Having count(*) >1;
